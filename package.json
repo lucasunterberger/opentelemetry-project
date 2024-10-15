@@ -1,0 +1,22 @@
+{
+  "name": "opentelemetry-project",
+  "version": "1.0.0",
+  "description": "Demo project to run opentelemetry",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@opentelemetry/core": "^1.26.0",
+    "@opentelemetry/exporter-zipkin": "^1.26.0",
+    "@opentelemetry/node": "^0.24.0",
+    "@opentelemetry/plugin-express": "^0.15.0",
+    "@opentelemetry/plugin-http": "^0.18.2",
+    "@opentelemetry/plugin-https": "^0.18.2",
+    "@opentelemetry/tracing": "^0.24.0",
+    "express": "^4.21.1"
+  }
+}
