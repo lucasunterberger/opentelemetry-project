@@ -17,6 +17,10 @@ def roll_dice():
         logger.warning("Anonymous player is rolling the dice: %s", result)
     return result
 
+@app.route("/")
+def hello_world():
+    return "Hello, World!"
+
 
 def roll():
     return randint(1, 6)
