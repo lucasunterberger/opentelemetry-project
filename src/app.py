@@ -3,18 +3,34 @@ from flask import Flask, request
 import logging
 
 from opentelemetry.instrumentation.flask import FlaskInstrumentor
+
+from opentelemetry.exporter.zipkin.proto.http import ZipkinExporter
+from opentelemetry.sdk.resources import SERVICE_NAME, Resource
 from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
 from opentelemetry.sdk.trace.export import (
     BatchSpanProcessor,
     ConsoleSpanExporter,
 )
 from opentelemetry.trace import get_tracer_provider, set_tracer_provider
 
+# Service name is required for most backends
+resource = Resource(attributes={
+    SERVICE_NAME: "your-service-name"
+})
+
+zipkin_exporter = ZipkinExporter(endpoint="http://localhost:9411/api/v2/spans")
+
 # initialize otel traces and span
 set_tracer_provider(TracerProvider())
 get_tracer_provider().add_span_processor(
     BatchSpanProcessor(ConsoleSpanExporter())
 )
+get_tracer_provider().add_span_processor(
+    BatchSpanProcessor(zipkin_exporter)
+)
+
+
 
 # set instrumentor to automatically instrument flask app
 instrumentor = FlaskInstrumentor()
