@@ -4,6 +4,10 @@ FROM python:3.12-alpine
 ENV PYTHONDONTWRITEGYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+# set flask env
+ENV FLASK_APP=app.py
+# ENV FLASK_RUN_HOST=0.0.0.0
+
 # Set env var for OTel
 # ENV OTEL_SERVICE_NAME="flask-otel-test"
 # ENV OTEL_TRACES_EXPORTER=console,otlp
@@ -19,6 +23,9 @@ COPY requirements.txt .
 # to get OTel to run on alpine
 # RUN apk add python3-dev
 # RUN apk add build-base
+
+# run this command for redis
+# RUN apk add --no-cache gcc musl-dev linux-headers
 
 # Install dependencies
 RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r requirements.txt

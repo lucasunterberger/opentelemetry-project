@@ -1,5 +1,20 @@
 
 services:
+  
+  redis:
+    image: "redis:alpine"
+  # zipkin service to export logs and use GUI
+
+  zipkin-service:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    # Environment settings are defined here https://github.com/openzipkin/zipkin/blob/master/zipkin-server/README.md#environment-variables
+    ports:
+      # Port used for the Zipkin UI and HTTP Api
+      - 9411:9411
+    # Uncomment to enable debug logging
+    # command: --logging.level.zipkin2=DEBUG
+  
   python-app:
     build:
       context: .
@@ -8,3 +23,6 @@ services:
       - "8080:8080"
     volumes:
       - .:/app:ro
+    depends_on:
+      - zipkin-service
+  # redis service to cache some results
